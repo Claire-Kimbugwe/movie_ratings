@@ -1,0 +1,19 @@
+
+
+U.ITEMS
+movie id | movie title | release date | video release date |
+IMDb URL | unknown | Action | Adventure | Animation |
+Children's | Comedy | Crime | Documentary | Drama | Fantasy |
+Film-Noir | Horror | Musical | Mystery | Romance | Sci-Fi |
+Thriller | War | Western |
+
+
+u.user
+Demographic information about the users; this is a |- separated list of:
+
+user id | age | gender | occupation | zip code
+
+u.data
+The full user data set, 100,000 ratings by 943 users on 1682 items. Each user has rated at least 20 movies. Users and items are numbered consecutively from 1. The data is randomly ordered. This is a tab (\t) separated list of:
+
+user_id \t movie_id \t score \t timestamp.

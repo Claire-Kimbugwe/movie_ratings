@@ -7,6 +7,7 @@ from model import User
 
 from model import connect_to_db, db
 from server import app
+from datetime import datetime as dt 
 
 
 def load_users():
@@ -36,6 +37,19 @@ def load_users():
 
 def load_movies():
     """Load movies from u.item into database."""
+    for row in open("seed_data/u.item"):
+        row = row.rstrip()
+        clean_row = row.split("|")
+        clean_row = clean_row[0:5]
+        clean_row = tuple(clean_row)
+
+        movie_id, title, released_at, trash, imdb = clean_row
+        released_at = dt.strptime(released_at, '%d-%b-%Y')
+
+
+        print(released_at)
+
+
 
 
 def load_ratings():
