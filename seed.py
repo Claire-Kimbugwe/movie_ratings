@@ -49,9 +49,8 @@ def load_movies():
 
         movie_id, title, released_at, trash, imdb = clean_row
         released_at = dt.strptime(released_at, '%d-%b-%Y')
-        released_at = released_at.strftime('%d-%b-%Y')
         title = title[0:-7]
-        print(title)
+        
 
         movie = Movie(movie_id=movie_id, 
                     title=title,
