@@ -34,12 +34,57 @@ def user_list():
     return render_template("user_list.html", users=users)
 
 @app.route("/register")
-def user_login():
+def get_user_login_info():
     """Show  user registration  page ."""
-
-
     
     return render_template("registration.html")
+
+
+@app.route("/registered", methods = ["POST"])
+def register_user():
+    """Show  user registration  page ."""
+    user_email = request.form.get('email')
+    password = request.form.get('pw')
+
+    email_address = User.query.filter_by(email = user_email).first()
+    if  user_email== email_address.email:
+
+        return redirect("user_login.html")
+
+        
+    elif user_email != email_address:
+        user = User(email= user_email,password=password)
+
+        db.session.add(user)
+        db.session.commit()
+    
+    
+    return redirect("/")
+
+@app.route("/user_login")
+def login_user():
+    """Allow existing user to login ."""
+    
+    return render_template("user_login.html")
+
+
+@app.route("/user_login", methods = ["POST"])
+def verify_user_login():
+    """make sure that password is correct."""
+
+    user_email = request.form.get('user_email')
+    password = request.form.get('password')
+
+
+    if user_email != User.query.filter_by(email = user_email).first():
+        flash("Email not  please try again")
+
+    if password != User.query.filter_by(password = password).first():
+        flash("Wrong password please try again")
+
+
+
+
 
 
 
