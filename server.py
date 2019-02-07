@@ -46,13 +46,12 @@ def register_user():
     user_email = request.form.get('email')
     password = request.form.get('pw')
 
-    email_address = User.query.filter_by(email = user_email).first()
-    if  user_email== email_address.email:
+    user = User.query.filter_by(email = user_email).first()
 
-        return redirect("user_login.html")
+    if user != None:
+        return redirect('user_login.html')
 
-        
-    elif user_email != email_address:
+    else:
         user = User(email= user_email,password=password)
 
         db.session.add(user)
