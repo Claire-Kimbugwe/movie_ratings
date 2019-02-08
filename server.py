@@ -33,6 +33,20 @@ def user_list():
     users = User.query.all()
     return render_template("user_list.html", users=users)
 
+
+@app.route("/users/<user_id>")
+def show_user_info(user_id):
+
+    user= User.query.get(user_id)
+
+    zipcode = user.zipcode
+    age = user.age
+    ratings = user.ratings.query(movie_id)
+
+
+    return render_template("user_info.html", zipcode = zipcode, age = age, ratings = ratings)  
+
+
 @app.route("/register")
 def get_user_login_info():
     """Show  user registration  page ."""
@@ -58,7 +72,7 @@ def register_user():
         db.session.commit()
     
     
-    return redirect("/")
+    return redirect("user_login")
 
 @app.route("/user_login")
 def login_user():
@@ -75,11 +89,38 @@ def verify_user_login():
     password = request.form.get('password')
 
 
-    if user_email != User.query.filter_by(email = user_email).first():
-        flash("Email not  please try again")
+    user = User.query.filter_by(email = user_email).first()
+    print(user)
 
-    if password != User.query.filter_by(password = password).first():
-        flash("Wrong password please try again")
+    if user == None:
+        flash("Registration not found, redirecting to registration.")
+        return redirect('/register')
+
+    elif user.password == password:
+        
+
+        session["user_id"] = user.user_id
+        print(session["user_id"])
+        flash("Logged in!")
+        return redirect('/')
+
+    else:
+        flash("Error, please try logging in again.")
+        return redirect('/user_login')
+
+@app.route("/logout")
+def logout():
+    """ logs out user"""
+    del session["user_id"]
+    flash("You are logged out!")
+
+    return redirect('/user_login')
+
+    # if user_email != User.query.filter_by(email = user_email).first():
+    #     flash("Email not  please try again")
+
+    # if password != User.query.filter_by(password = password).first():
+    #     flash("Wrong password please try again")
 
 
 
